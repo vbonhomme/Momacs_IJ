@@ -1,0 +1,171 @@
+// o Open...
+// O Open Next
+// t should be replaced by 
+
+
+// add 
+// macro "AutoRun" {
+//   run("Action Bar", "/plugins/_Momacs.txt");
+// }
+// in ImageJ/macros/StartupMacros.txt
+
+// Action Bar description file :new_action_bar
+run("Action Bar","/plugins/_Momacs.txt");
+exit;
+
+macro "Add" [k] {
+    roiManager("Add");
+    roiManager("select", roiManager("count")-1);
+    roiManager("Rename", roiManager("count")+"_"+Roi.getType());
+    roiManager("Show All");
+    roiManager("Show All with labels");
+}
+
+// <codeLibrary>
+// macro "Add" {
+//     roiManager("Add");
+//     roiManager("select", roiManager("count")-1);
+//     roiManager("Rename", roiManager("count")+"_"+Roi.getType());
+//     roiManager("Show All");
+//     roiManager("Show All with labels");
+// }
+// </codeLibrary>
+
+///////////////////////////// Global behaviour rules
+//<main>
+//<sticky>
+//<noGrid>
+
+
+///////////////////////////// Drag and drop line
+
+// <text>  Drag and drop image(s)...
+// <DnD>
+///////////////////////////// Image line
+// <line>
+// <button>Previous image
+// label=Previous image in stack [<]
+// icon=icons/_Momacs/image_previous.png
+// arg=<macro>
+// run("Previous Slice [<]");
+// </macro>
+
+// <button>Next image
+// label=Next image in stack [>]
+// icon=icons/_Momacs/image_next.png
+// arg=<macro>
+// run("Next Slice [>]");
+// </macro>
+
+
+// <button>Zoom out
+// label=Zoom out [-]
+// icon=icons/_Momacs/zoom_out.png
+// arg=<macro>
+// run("Out [-]");
+// </macro>
+
+// <button>Zoom zero
+// label=Zoom to original scale
+// icon=icons/_Momacs/zoom_0.png
+// arg=<macro>
+// run("Original Scale");
+// </macro>
+
+// <button>Zoom in
+// label=Zoom in [+]
+// icon=icons/_Momacs/zoom_in.png
+// arg=<macro>
+// run("In [+]");
+// </macro>
+
+// <button>Move
+// label=Move [Space]
+// icon=icons/_Momacs/image_move.png
+// arg=<macro>
+// setTool("hand");
+// </macro>
+// </line>
+
+///////////////////////////// Tools line
+
+<line>
+
+<button>Scale
+label=Scale
+//icon=icons/_Momacs/scale.png
+icon=noicon
+arg=<macro>
+setTool("line");
+</macro>
+
+<button>Landmarks
+label=Points
+//icon=icons/_Momacs/landmarks.png
+icon=noicon
+arg=<macro>
+setTool("multipoint");
+</macro>
+
+<button>Segmented
+label=Polyline
+//icon=icons/_Momacs/segmented.png
+icon=noicon
+arg=<macro>
+setTool("polyline");
+</macro>
+
+<button>Splines
+label=Splines
+//icon=icons/_Momacs/spline.png
+icon=noicon
+arg=<macro>
+run("Fit Spline");
+</macro>
+</line>
+
+<line>
+<button>Add ROI
+label=Add
+icon=noicon
+//icon=icons/_Momacs/add_ROI.png
+arg=<macro>
+	roiManager("Add");
+    roiManager("select", roiManager("count")-1);
+    roiManager("Rename", roiManager("count")+"_"+Roi.getType());
+	roiManager("Show All");
+    roiManager("Show All with labels");
+</macro>
+
+
+<button>Reset
+label=Reset
+//icon=icons/_Momacs/reset.png
+icon=noicon
+arg=roiManager("Reset");
+
+<button>Save as .txt
+label=Save txt
+//icon=icons/_Momacs/save.png
+icon=noicon
+arg=<macro>
+    fullname = getTitle;
+    dotIndex = indexOf(fullname, ".");
+    name = substring(fullname, 0, dotIndex); 
+	dir=getDirectory("image");
+    index = lastIndexOf(name, "\\"); 
+    if (index!=-1) name = substring(name, 0, index); 
+    name = name + ".txt";
+	saveAs("XY Coordinates", dir+name);
+</macro>
+
+<button>Save as .tps
+label=Save tps
+//icon=icons/_Momacs/save.png
+icon=noicon
+arg=runMacro("roi2tps")
+</macro>
+</line>
+
+
+// end of file
